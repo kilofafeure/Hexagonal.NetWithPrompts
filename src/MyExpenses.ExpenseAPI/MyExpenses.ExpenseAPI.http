@@ -1,0 +1,44 @@
+@MyExpenses.ExpenseAPI_HostAddress = http://localhost:5139
+
+### Check API status
+GET {{MyExpenses.ExpenseAPI_HostAddress}}/
+
+### Register an expense
+POST {{MyExpenses.ExpenseAPI_HostAddress}}/api/expenses
+Content-Type: application/json
+
+{
+  "concept": "Groceries",
+  "amount": 42.75,
+  "date": "2026-11-12",
+  "note": "Weekly shopping"
+}
+
+### Get all active expenses
+GET {{MyExpenses.ExpenseAPI_HostAddress}}/api/expenses
+Accept: application/json
+
+### Get an active expense by ID
+# Replace the ID with the one returned by the register request.
+GET {{MyExpenses.ExpenseAPI_HostAddress}}/api/expenses/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+### Reject an expense amount with more than two decimal places (400)
+POST {{MyExpenses.ExpenseAPI_HostAddress}}/api/expenses
+Content-Type: application/json
+
+{
+  "concept": "Invalid amount",
+  "amount": 12.345,
+  "date": "2026-11-12"
+}
+
+### Return not found for a missing expense (404)
+GET {{MyExpenses.ExpenseAPI_HostAddress}}/api/expenses/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+### Logically delete an expense
+# Replace the ID with the one returned by the register request.
+DELETE {{MyExpenses.ExpenseAPI_HostAddress}}/api/expenses/00000000-0000-0000-0000-000000000000
+
+###

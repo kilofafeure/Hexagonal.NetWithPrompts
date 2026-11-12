@@ -1,0 +1,24 @@
+Quiero construir una aplicación sencilla para registrar gastos personales.
+
+Cada gasto debe tener:
+
+- Concepto.
+- Cantidad.
+- Fecha.
+
+La aplicación permitirá¡:
+
+- Registrar un gasto.
+- Consultar gastos.
+- Calcular el total gastado.
+- Eliminar un gasto.
+
+Restricciones:
+1. No escribas código todaví­a.
+2. No agregues usuarios para esta aplicación.
+
+Identifica:
+1. Entidades.
+2. Reglas de negocio.
+3. Casos de uso.
+4. Posibles errores.
