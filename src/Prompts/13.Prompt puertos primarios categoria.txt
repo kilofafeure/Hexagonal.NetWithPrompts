@@ -1,0 +1,2 @@
+Agrega 3 puertos primarios para categoría, los puertos primarios deben abarcar el crear, 
+eliminar y obtener. Los puertos nuevos agregalos en su propia carpeta.
