@@ -16,12 +16,12 @@ internal sealed class ApiExceptionHandler(
         {
             DomainException => (
                 StatusCodes.Status400BadRequest,
-                "Invalid expense",
-                "The request violates an expense business rule."),
+                "Invalid request",
+                "The request violates a business rule."),
             KeyNotFoundException => (
                 StatusCodes.Status404NotFound,
-                "Expense not found",
-                "The requested expense could not be found."),
+                "Resource not found",
+                "The requested resource could not be found."),
             _ => (0, null, null)
         };
 

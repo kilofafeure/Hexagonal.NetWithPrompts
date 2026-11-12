@@ -43,4 +43,20 @@ Accept: application/json
 # Replace the ID with the one returned by the register request.
 DELETE {{MyExpenses.ExpenseAPI_HostAddress}}/api/expenses/00000000-0000-0000-0000-000000000000
 
+### Create a category
+POST {{MyExpenses.ExpenseAPI_HostAddress}}/api/categories
+Content-Type: application/json
+
+{
+  "name": "Food"
+}
+
+### Get all categories
+GET {{MyExpenses.ExpenseAPI_HostAddress}}/api/categories
+Accept: application/json
+
+### Delete a category
+# Replace the ID with the one returned by the create category request.
+DELETE {{MyExpenses.ExpenseAPI_HostAddress}}/api/categories/00000000-0000-0000-0000-000000000000
+
 ###

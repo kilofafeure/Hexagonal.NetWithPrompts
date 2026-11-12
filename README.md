@@ -8,14 +8,15 @@ La solución contiene proyectos .NET 10:
 
 - `src/MyExpenses.Domain`: entidades y reglas de negocio del dominio.
 - `src/MyExpenses.ApplicationLayer`: componente de aplicación de la arquitectura hexagonal. Contiene el puerto secundario genérico `IRepository<T>`, los puertos primarios asíncronos y sus casos de uso para gastos, y los puertos primarios de categoría para crear, eliminar y obtener categorías.
-- `src/MyExpenses.FileRepository`: adaptador que implementa `IRepository<Expense>` con almacenamiento en memoria mediante una lista de gastos. Los datos no se conservan al cerrar la aplicación.
-- `src/MyExpenses.ExpenseAPI`: Minimal API como punto de entrada HTTP. Expone `GET /` como comprobación de estado y endpoints para registrar, consultar y eliminar gastos.
+- `src/MyExpenses.FileRepository`: adaptador que implementa `IRepository<Expense>` y `IRepository<Category>` con almacenamiento en memoria mediante listas. Los datos no se conservan al cerrar la aplicación.
+- `src/MyExpenses.ExpenseAPI`: Minimal API como punto de entrada HTTP. Expone `GET /` como comprobación de estado y endpoints para registrar, consultar y eliminar gastos, además de crear, consultar y eliminar categorías.
 - `Expense`: entidad de gasto con identificador `Guid`, categoría (`IdCategory`), concepto, cantidad, fecha, nota opcional, fecha de creación y fecha de borrado lógico.
+- `Category`: entidad de categoría con identificador `Guid` y nombre de hasta 100 caracteres.
 - `DomainException`: excepción para comunicar errores de reglas de dominio a otras capas.
 
 `IRepository<T>` define operaciones asíncronas genéricas para agregar, consultar y eliminar entidades. Los casos de uso de gastos reciben `IRepository<Expense>` por constructor, registran gastos mediante el dominio, devuelven únicamente gastos activos y eliminan gastos mediante borrado lógico. Los casos de uso de categorías reciben `IRepository<Category>` y permiten crear, consultar y eliminar categorías. El proyecto de aplicación referencia al proyecto de dominio para utilizar las entidades `Expense` y `Category`.
 
-`MyExpenses.ExpenseAPI` tiene referencias a los proyectos de aplicación, repositorio y dominio. Registra `ExpenseRepository` como singleton para conservar los gastos en memoria entre peticiones, y registra los casos de uso con ciclo de vida scoped. Los endpoints están documentados y pueden probarse manualmente en `src/MyExpenses.ExpenseAPI/MyExpenses.ExpenseAPI.http`.
+`MyExpenses.ExpenseAPI` tiene referencias a los proyectos de aplicación, repositorio y dominio. Registra los repositorios como singleton para conservar gastos y categorías en memoria entre peticiones, y registra los casos de uso con ciclo de vida scoped. Los endpoints están documentados y pueden probarse manualmente en `src/MyExpenses.ExpenseAPI/MyExpenses.ExpenseAPI.http`.
 
 | Método | Ruta | Operación |
 |---|---|---|
@@ -23,6 +24,9 @@ La solución contiene proyectos .NET 10:
 | `GET` | `/api/expenses` | Consulta los gastos activos |
 | `GET` | `/api/expenses/{expenseId}` | Consulta un gasto activo por ID |
 | `DELETE` | `/api/expenses/{expenseId}` | Elimina lógicamente un gasto |
+| `POST` | `/api/categories` | Crea una categoría |
+| `GET` | `/api/categories` | Consulta todas las categorías |
+| `DELETE` | `/api/categories/{categoryId}` | Elimina una categoría |
 
 En Development se publica el documento OpenAPI en `/openapi/v1.json`.
 
