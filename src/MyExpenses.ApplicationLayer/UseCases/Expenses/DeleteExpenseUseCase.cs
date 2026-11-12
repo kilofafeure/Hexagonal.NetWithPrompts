@@ -1,13 +1,14 @@
 using MyExpenses.ApplicationLayer.Ports.PrimaryPort.Expenses;
 using MyExpenses.ApplicationLayer.Ports.SecundaryPort;
+using MyExpenses.Domain.Entities;
 
 namespace MyExpenses.ApplicationLayer.UseCases.Expenses;
 
 public sealed class DeleteExpenseUseCase : IDeleteExpenseUseCase
 {
-    private readonly IRepository _repository;
+    private readonly IRepository<Expense> _repository;
 
-    public DeleteExpenseUseCase(IRepository repository)
+    public DeleteExpenseUseCase(IRepository<Expense> repository)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }

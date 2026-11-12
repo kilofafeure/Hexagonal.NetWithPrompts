@@ -1,12 +1,10 @@
-using MyExpenses.Domain.Entities;
-
 namespace MyExpenses.ApplicationLayer.Ports.SecundaryPort;
 
-public interface IRepository
+public interface IRepository<T>
 {
-    Task AddAsync(Expense expense, CancellationToken cancellationToken = default);
+    Task AddAsync(T entity, CancellationToken cancellationToken = default);
 
-    Task<IReadOnlyList<Expense>> GetAsync(CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<T>> GetAsync(CancellationToken cancellationToken = default);
 
-    Task DeleteAsync(Expense expense, CancellationToken cancellationToken = default);
+    Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
 }

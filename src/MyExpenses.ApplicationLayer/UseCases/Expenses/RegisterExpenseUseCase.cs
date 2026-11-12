@@ -6,9 +6,9 @@ namespace MyExpenses.ApplicationLayer.UseCases.Expenses;
 
 public sealed class RegisterExpenseUseCase : IRegisterExpenseUseCase
 {
-    private readonly IRepository _repository;
+    private readonly IRepository<Expense> _repository;
 
-    public RegisterExpenseUseCase(IRepository repository)
+    public RegisterExpenseUseCase(IRepository<Expense> repository)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
