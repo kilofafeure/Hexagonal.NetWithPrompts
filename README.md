@@ -10,7 +10,7 @@ La solución contiene proyectos .NET 10:
 - `src/MyExpenses.ApplicationLayer`: componente de aplicación de la arquitectura hexagonal. Contiene el puerto secundario `IRepository`, los puertos primarios asíncronos y sus casos de uso para registrar, consultar y eliminar gastos.
 - `src/MyExpenses.FileRepository`: adaptador que implementa `IRepository` con almacenamiento en memoria mediante una lista de gastos. Los datos no se conservan al cerrar la aplicación.
 - `src/MyExpenses.ExpenseAPI`: Minimal API como punto de entrada HTTP. Expone `GET /` como comprobación de estado y endpoints para registrar, consultar y eliminar gastos.
-- `Expense`: entidad de gasto con identificador `Guid`, concepto, cantidad, fecha, nota opcional, fecha de creación y fecha de borrado lógico.
+- `Expense`: entidad de gasto con identificador `Guid`, categoría (`IdCategory`), concepto, cantidad, fecha, nota opcional, fecha de creación y fecha de borrado lógico.
 - `DomainException`: excepción para comunicar errores de reglas de dominio a otras capas.
 
 `IRepository` define operaciones asíncronas para agregar, consultar y eliminar gastos. Los casos de uso reciben `IRepository` por constructor, registran gastos mediante el dominio, devuelven únicamente gastos activos y eliminan gastos mediante borrado lógico. El proyecto de aplicación referencia al proyecto de dominio para utilizar la entidad `Expense`.
@@ -26,7 +26,7 @@ La solución contiene proyectos .NET 10:
 
 En Development se publica el documento OpenAPI en `/openapi/v1.json`.
 
-La entidad valida que el concepto no esté vacío, que la cantidad sea mayor que cero y tenga como máximo dos decimales, y que la fecha sea válida. Los importes con más de dos decimales se rechazan; no se redondean automáticamente. El método `Delete()` marca el gasto como eliminado asignándole una fecha, sin borrarlo físicamente, y no permite marcarlo como eliminado más de una vez.
+La entidad valida que el concepto no esté vacío, que `IdCategory` no sea un GUID vacío, que la cantidad sea mayor que cero y tenga como máximo dos decimales, y que la fecha sea válida. Los importes con más de dos decimales se rechazan; no se redondean automáticamente. El método `Delete()` marca el gasto como eliminado asignándole una fecha, sin borrarlo físicamente, y no permite marcarlo como eliminado más de una vez.
 
 ## Requisitos
 

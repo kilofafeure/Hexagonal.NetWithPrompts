@@ -9,5 +9,7 @@ public sealed record CreateExpenseRequest
 
     public required DateOnly Date { get; init; }
 
+    public required Guid IdCategory { get; init; }
+
     public string? Note { get; init; }
 }

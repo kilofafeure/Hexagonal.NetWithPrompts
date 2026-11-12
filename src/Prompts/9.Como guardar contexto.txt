@@ -1,0 +1,7 @@
+En el asisitente escribimos
+
+/init
+
+y genera el fichero 
+
+.github/copilot-instructions.md

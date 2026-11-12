@@ -17,12 +17,13 @@ public sealed class RegisterExpenseUseCase : IRegisterExpenseUseCase
         string concept,
         decimal amount,
         DateOnly date,
+        Guid idCategory,
         string? note = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var expense = new Expense(concept, amount, date, note);
+        var expense = new Expense(concept, amount, date, idCategory, note);
         await _repository.AddAsync(expense, cancellationToken);
         return expense;
     }

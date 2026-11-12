@@ -8,6 +8,7 @@ public interface IRegisterExpenseUseCase
         string concept,
         decimal amount,
         DateOnly date,
+        Guid idCategory,
         string? note = null,
         CancellationToken cancellationToken = default);
 }

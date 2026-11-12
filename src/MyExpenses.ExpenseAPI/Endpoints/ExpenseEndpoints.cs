@@ -23,6 +23,7 @@ internal static class ExpenseEndpoints
                         request.Concept,
                         request.Amount,
                         request.Date,
+                        request.IdCategory,
                         request.Note,
                         cancellationToken);
 
@@ -96,6 +97,7 @@ internal static class ExpenseEndpoints
             expense.Concept,
             expense.Amount,
             expense.Date,
+            expense.IdCategory,
             expense.Note,
             expense.CreatedAt,
             expense.DeletedAt);

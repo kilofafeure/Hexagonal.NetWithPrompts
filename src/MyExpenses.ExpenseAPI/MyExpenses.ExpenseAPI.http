@@ -11,6 +11,7 @@ Content-Type: application/json
   "concept": "Groceries",
   "amount": 42.75,
   "date": "2026-11-12",
+  "idCategory": "11111111-1111-4111-8111-111111111111",
   "note": "Weekly shopping"
 }
 
@@ -30,7 +31,8 @@ Content-Type: application/json
 {
   "concept": "Invalid amount",
   "amount": 12.345,
-  "date": "2026-11-12"
+  "date": "2026-11-12",
+  "idCategory": "11111111-1111-4111-8111-111111111111"
 }
 
 ### Return not found for a missing expense (404)

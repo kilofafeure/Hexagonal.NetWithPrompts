@@ -6,6 +6,8 @@ public sealed class Expense
 {
     public Guid Id { get; private set; }
 
+    public Guid IdCategory { get; private set; }
+
     public string Concept { get; private set; }
 
     public decimal Amount { get; private set; }
@@ -18,11 +20,16 @@ public sealed class Expense
 
     public DateTimeOffset? DeletedAt { get; private set; }
 
-    public Expense(string concept, decimal amount, DateOnly date, string? note = null)
+    public Expense(string concept, decimal amount, DateOnly date, Guid idCategory, string? note = null)
     {
         if (string.IsNullOrWhiteSpace(concept))
         {
             throw new DomainException("Expense concept cannot be empty.");
+        }
+
+        if (idCategory == Guid.Empty)
+        {
+            throw new DomainException("Expense category ID cannot be empty.");
         }
 
         if (amount <= 0)
@@ -41,6 +48,7 @@ public sealed class Expense
         }
 
         Id = Guid.NewGuid();
+        IdCategory = idCategory;
         Concept = concept.Trim();
         Amount = amount;
         Date = date;

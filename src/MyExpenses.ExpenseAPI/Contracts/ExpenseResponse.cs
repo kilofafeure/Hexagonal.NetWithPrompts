@@ -6,6 +6,7 @@ public sealed record ExpenseResponse(
     string Concept,
     decimal Amount,
     DateOnly Date,
+    Guid IdCategory,
     string? Note,
     DateTimeOffset CreatedAt,
     DateTimeOffset? DeletedAt);
