@@ -3,6 +3,9 @@
 ### Check API status
 GET {{MyExpenses.ExpenseAPI_HostAddress}}/
 
+### Check server status
+GET {{MyExpenses.ExpenseAPI_HostAddress}}/status
+
 ### Register an expense
 POST {{MyExpenses.ExpenseAPI_HostAddress}}/api/expenses
 Content-Type: application/json

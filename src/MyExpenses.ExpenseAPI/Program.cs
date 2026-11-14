@@ -33,7 +33,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.MapGet("/", () => "API Corriendo");
+app.MapStatusEndpoints();
 app.MapExpenseEndpoints();
 app.MapCategoryEndpoints();
 
