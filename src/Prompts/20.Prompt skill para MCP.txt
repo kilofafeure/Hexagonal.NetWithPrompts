@@ -1,0 +1,2 @@
+1. Crea un skill sencillo llamado create-class-mcp en donde indiques que las clases y los métodos deben llebar las anotaciones que se muestran en EchoTools tanto McpServerToolType y McpServerTool
+2. /create-class-mcp Crear una clase llamada ExpenseTools, Agrega un método estático asíncrono para obtener los gastos, internamente ejecuta el caso de uso para obtener los gastos

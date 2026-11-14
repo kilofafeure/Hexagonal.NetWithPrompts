@@ -12,4 +12,10 @@
     <PackageReference Include="ModelContextProtocol" Version="2.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyExpenses.ApplicationLayer\MyExpenses.ApplicationLayer.csproj" />
+    <ProjectReference Include="..\MyExpenses.FileRepository\MyExpenses.FileRepository.csproj" />
+    <ProjectReference Include="..\MyExpenses.Domain\MyExpenses.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

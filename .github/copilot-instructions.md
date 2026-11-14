@@ -2,12 +2,13 @@
 
 ## Project context
 
-This repository is a .NET 10 backend for tracking personal expenses. The canonical project description is in [README.md](../README.md). The solution is rooted at `MyExpenses.sln` and contains four projects under `src/`:
+This repository is a .NET 10 backend for tracking personal expenses. The canonical project description is in [README.md](../README.md). The solution is rooted at `MyExpenses.sln` and contains five projects under `src/`:
 
 - `MyExpenses.Domain`: domain entities and validation rules.
 - `MyExpenses.ApplicationLayer`: use cases and ports for the application layer.
 - `MyExpenses.FileRepository`: implementation of the secondary port, currently backed by an in-memory list.
 - `MyExpenses.ExpenseAPI`: Minimal API HTTP layer.
+- `MyMcpServer`: stdio-based MCP server exposing tools over the same application and repository layers.
 
 The application follows a hexagonal architecture with a clear separation between domain, application logic, infrastructure adapters, and HTTP endpoints.
 
@@ -20,6 +21,14 @@ dotnet build MyExpenses.sln
 ```
 
 This is the main validation command for the project. There is currently no automated test project or dedicated lint configuration.
+
+Run the MCP server locally with:
+
+```powershell
+dotnet run --project src/MyMcpServer/MyMcpServer.csproj
+```
+
+The server communicates over standard input/output; stop any running MCP server before building if its process is locking the project's output files.
 
 When test projects are added, run a single test by its fully qualified name:
 
@@ -39,6 +48,7 @@ The design is intentionally layered:
 - `MyExpenses.FileRepository` implements `IRepository<Expense>` and `IRepository<Category>` using in-memory lists. Repository methods synchronize list access; this is not durable storage.
 - `MyExpenses.ExpenseAPI/Program.cs` is the composition root. It registers repository adapters as singletons and use cases as scoped services.
 - `MyExpenses.ExpenseAPI/Endpoints` contains the route mappers. `ExpenseEndpoints` and `CategoryEndpoints` map their resource groups; `StatusEndpoints` maps `/` and `/status`. `Program.cs` wires services and invokes these mappers.
+- `MyMcpServer/Program.cs` hosts the MCP server over stdio, sends console logs to stderr, registers the expense repository and use cases, and discovers tool classes with `WithToolsFromAssembly()`. `EchoTools` and `ExpenseTools` expose MCP tools. `ExpenseTools.AddExpenseAsync` accepts the concept, amount, and category GUID, supplies today's date, and calls `IRegisterExpenseUseCase`, which creates and stores the domain entity. The root `.mcp.json` configures Copilot to launch this project.
 
 Expense and category endpoints map request contracts to use cases and domain entities to response contracts in `MyExpenses.ExpenseAPI/Contracts`; status endpoints return plain text. The API does not expose domain objects directly. `ApiExceptionHandler` maps `DomainException` to HTTP 400 and `KeyNotFoundException` to HTTP 404.
 
@@ -49,7 +59,11 @@ Expense and category endpoints map request contracts to use cases and domain ent
 - Keep the secondary port generic and small: use cases depend on `IRepository<T>`, not concrete repository classes.
 - Keep HTTP handlers thin. Use route groups, request/response contracts, and `TypedResults.*`; do not return domain entities directly.
 - Keep route definitions in `MyExpenses.ExpenseAPI/Endpoints/*Endpoints.cs`. `Program.cs` should compose dependencies and call each endpoint mapper rather than define feature routes inline.
+- MCP tool classes in `MyMcpServer` use `[McpServerToolType]`; each exposed method uses `[McpServerTool]` and a descriptive `[Description]`. Keep `WithToolsFromAssembly()` enabled so annotated tools are discovered.
+- MCP tools should call application use-case ports through dependency injection, not repositories directly. Keep the singleton repository and scoped use-case registrations in `MyMcpServer/Program.cs` consistent with the API.
+- The MCP server uses stdio, so keep protocol traffic on standard output and route console logging to standard error.
 - Preserve the current dependency direction: `MyExpenses.Domain` has no project dependencies; `MyExpenses.ApplicationLayer` references the domain; `MyExpenses.FileRepository` implements application ports using domain entities; `MyExpenses.ExpenseAPI` references application, domain, and repository projects for routing and dependency injection.
+- `MyMcpServer` references the application, repository, and domain projects; preserve this dependency direction when adding MCP features.
 - Data is ephemeral: the repository is in-memory and resets on process restart; treat persistence as a future increment, not a stable store.
 
 ## Notes for future changes
@@ -58,6 +72,7 @@ Expense and category endpoints map request contracts to use cases and domain ent
 - If you add a repository adapter, implement `IRepository<T>` and register it in `Program.cs` with a lifetime appropriate to its storage behavior.
 - When adding or changing an HTTP route, update the matching endpoint mapper, register the mapper in `Program.cs` if it is new, and add a request scenario to `src/MyExpenses.ExpenseAPI/MyExpenses.ExpenseAPI.http`.
 - Follow the existing `RegisterExpenseUseCase`, `GetExpensesUseCase`, and `DeleteExpenseUseCase` naming pattern for expense workflows, and the corresponding `CreateCategoryUseCase`, `GetCategoriesUseCase`, and `DeleteCategoryUseCase` pattern for categories.
+- When adding an MCP tool, follow `.github/skills/create-class-mcp/SKILL.md` and keep the server discoverable through the root `.mcp.json` configuration.
 
 ## Environment and tooling
 

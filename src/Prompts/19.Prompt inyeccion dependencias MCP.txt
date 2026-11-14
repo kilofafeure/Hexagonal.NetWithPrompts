@@ -1,0 +1,2 @@
+1. Agrega referencias a este proyecto (MyMcpServer) del componente ApplicationLayer, FileRepository y Domain
+2. Inyecta en el proyecto las clases junto a sus puertos siguientes. ExpensesRepository, GetExpensesUseCase y RegisterExpsenseUseCase

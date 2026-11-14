@@ -1,0 +1,1 @@
+1. Agrega un método estático y asíncrono para agregar un gasto, debe recibir el concepto, el monto y la categoría, la fecha pon la actual, crea la entidad y ejecuta el caso de uso
