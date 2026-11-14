@@ -1,0 +1,8 @@
+"Crea un proyecto nuevo en la solución, llámalo MyMcpServer, hazlo del tipo consola, no hagas nada más"
+"En .NET 10 ya no se necesita una clase para correr proyecto de Console"
+"Instala el paquete ModelContextProtocol"
+"Agrega el paquete Microsoft.Extensions.Hosting"
+"Agrega las líneas para que este proyecto corra como MCPServer en Program.cs"
+"Agrega una clase llamada EchoTools la cual tenga un método que regrese un IEnumerable de string de 5 elementos que tengan colores en español, agrega los atributos de MCP para ser tomado como parte del proyecto MCP"
+"agrega la configuración para que tu como agente en Copilot detectes MyMCPServer como MCP valido"
+"Dame un listado de colores"
